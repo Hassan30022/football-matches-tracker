@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Football Matches Tracker</title>
-    <meta charset="UTF-8" />
-    <base href="/football-matches-tracker/">
-  </head>
-  <body>
-    <app-root>Loading...</app-root>
-  </body>
+
+<head>
+  <title>Football Matches Tracker</title>
+  <meta charset="UTF-8" />
+  <base href="/football-matches-tracker/">
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+      OneSignal.init({
+        appId: "d917fad3-3eac-4f5a-9d0a-bc89a148cea8",
+        notifyButton: {
+          enable: true,
+        },
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <app-root>Loading...</app-root>
+</body>
+
 </html>
