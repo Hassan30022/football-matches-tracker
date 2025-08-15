@@ -4,8 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build"
-  },
+    "build": "ng build",
+   "build:pages": "ng build --configuration production --base-href /football-matches-tracker/",
+  "deploy": "npm run build:pages && cd dist/demo/browser && copy index.html 404.html && git init && git remote add origin https://github.com/Hassan30022/football-matches-tracker.git && git checkout -b gh-pages && git add . && git commit -m \"Update build\" && git push origin gh-pages --force"
+},
   "dependencies": {
     "@angular/animations": "^20.0.0",
     "@angular/common": "^20.0.0",
