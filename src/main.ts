@@ -20,6 +20,7 @@ import { MatchesListComponent } from './components/matches-list.component';
   ],
   template: `
     <div class="app-container">
+      <div> 
       <header class="app-header">
         <div class="header-content">
           <h1 class="app-title animate-fade-in">
@@ -63,11 +64,14 @@ import { MatchesListComponent } from './components/matches-list.component';
           </section>
         </div>
       </main>
-
+     </div>
       <footer class="app-footer">
         <div class="footer-content">
           <p class="footer-text">
             Built with ❤️ by M. Hassan Asghar
+          </p>
+          <p class="version-text">
+            version: 15.8.0.03 | 2025
           </p>
         </div>
       </footer>
@@ -78,6 +82,9 @@ import { MatchesListComponent } from './components/matches-list.component';
       min-height: 100vh;
       background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
       color: #e5e5e5;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .app-header {
@@ -158,6 +165,7 @@ import { MatchesListComponent } from './components/matches-list.component';
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding: 1.5rem 0;
       margin-top: 3rem;
+      position: relative;
     }
 
     .footer-content {
@@ -170,6 +178,14 @@ import { MatchesListComponent } from './components/matches-list.component';
     .footer-text {
       color: #6b7280;
       font-size: 0.9rem;
+    }
+
+    .version-text {
+      color: #6b7280;
+      font-size: 0.9rem;
+      position: absolute;
+      right: 12px;
+      bottom: 24px;
     }
 
     @media (max-width: 768px) {
