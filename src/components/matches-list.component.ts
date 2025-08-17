@@ -48,6 +48,7 @@ import { interval, Subscription } from 'rxjs';
           
           <div class="match-teams">
             <div class="team home-team">
+              <img class="crest" [src]="match.homeTeam.crest" [alt]="match.homeTeam.name">
               <span class="team-name">{{ match.homeTeam.name }}</span>
               <span class="team-short">(Home)</span>
             </div>
@@ -57,6 +58,7 @@ import { interval, Subscription } from 'rxjs';
             </div>
             
             <div class="team away-team">
+              <img class="crest-away" [src]="match.awayTeam.crest" [alt]="match.awayTeam.name">
               <span class="team-name">{{ match.awayTeam.name }}</span>
               <span class="team-short">(Away)</span>
             </div>
@@ -66,6 +68,11 @@ import { interval, Subscription } from 'rxjs';
             <i class="time-icon">⏰</i>
             <span>{{ formatTime(match.utcDate) }}</span>
           </div>
+          <div class="match-time">
+            <i class="time-icon">🏟️</i>
+            <span>{{ match.venue }}</span>
+          </div>
+
         </div>
       </div>
     </div>
@@ -153,6 +160,17 @@ import { interval, Subscription } from 'rxjs';
       font-weight: 600;
       margin-bottom: 0.5rem;
       color: #d1d5db;
+    }
+
+    .crest{
+      width: 40px;
+      height: 40px;
+    }
+
+    .crest-away{
+      width: 40px;
+      height: 40px;
+      align-self: end;
     }
 
     .empty-subtext {
@@ -304,7 +322,7 @@ import { interval, Subscription } from 'rxjs';
 export class MatchesListComponent implements OnInit, OnDestroy {
   @Input() selectedTeams: Team[] = [];
   
-  matches: Match[] = [];
+  matches: any[] = [];
   loading = false;
   currentTimezone = '';
   private refreshSubscription?: Subscription;
@@ -340,8 +358,11 @@ export class MatchesListComponent implements OnInit, OnDestroy {
     
     this.footballService.getUpcomingMatches(teamIds).subscribe({
       next: (matches) => {
-        this.matches = matches;
+        // Sort matches by utcDate ascending
+        this.matches = matches.sort((a, b) => new Date(a.utcDate).getTime() - new Date(b.utcDate).getTime());
         this.loading = false;
+        console.log('Loaded matches:', matches);
+        console.log('rec matches:', this.matches);
       },
       error: (error) => {
         console.error('Error loading matches:', error);

@@ -171,6 +171,7 @@ export class TeamSelectorComponent implements OnChanges {
     this.footballService.getTeamsByLeague(this.league).subscribe({
       next: (teams) => {
         this.teams = teams;
+        console.log('Teams loaded:', this.teams);
         this.selectedTeamId = '';
       },
       error: (error) => {

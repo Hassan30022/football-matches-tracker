@@ -17,9 +17,12 @@ import { Team } from '../services/football.service';
         <div 
           *ngFor="let team of teams; trackBy: trackByTeamId"
           class="team-card animate-fade-in hover-lift">
-          <div class="team-info">
-            <span class="team-name">{{ team.name }}</span>
-            <span class="team-short">{{ team.shortName }}</span>
+          <div class="team-info-wrapper">
+            <img [src]="team.crest" [alt]="team.name" class="team-crest">
+            <div class="team-info">
+              <span class="team-name">{{ team.name }}</span>
+              <span class="team-short">{{ team.shortName }}</span>
+            </div>
           </div>
           <button 
             (click)="removeTeam(team)"
@@ -76,6 +79,11 @@ import { Team } from '../services/football.service';
     .team-card:hover {
       border-color: #3b82f6;
       background: rgba(45, 45, 45, 1);
+    }
+
+    .team-info-wrapper{
+      display: flex;
+      flex-direction: row;
     }
 
     .team-info {
@@ -143,6 +151,13 @@ import { Team } from '../services/football.service';
       margin: 0 auto;
     }
 
+    .team-crest{
+        width: 40px;
+        height: 40px;
+        align-self: center;
+        margin-right: 10px;
+    }
+
     @media (max-width: 768px) {
       .teams-grid {
         grid-template-columns: 1fr;
@@ -175,6 +190,7 @@ export class SelectedTeamsComponent implements OnInit {
 
   ngOnInit() {
     // Load from localStorage if exists
+    console.log(this.teams)
     const saved = localStorage.getItem(this.storageKey);
     if (saved) {
       try {

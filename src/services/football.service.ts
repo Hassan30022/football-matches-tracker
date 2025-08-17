@@ -65,7 +65,7 @@ export class FootballService {
             id: parseInt(team.idTeam, 10),
             name: team.strTeam,
             shortName: team.strTeamShort || team.strTeam,
-            crest: team.strTeamBadge
+            crest: team.strBadge
           }));
         })
       );
@@ -76,20 +76,25 @@ export class FootballService {
       this.http.get<any>(`${this.baseUrl2}/eventsnext.php?id=${id}`).pipe(
         map(res => (res.events || []).map((e: any) => ({
           id: parseInt(e.idEvent, 10),
+          utcDate: e.dateEvent + 'T' + e.strTime,
+          status: e.strStatus || 'Scheduled',
+          venue: e.strVenue,
+          postponed: e.strPostponed != 'no',
+          season: e.strSeason,
           homeTeam: {
             id: parseInt(e.idHomeTeam, 10),
             name: e.strHomeTeam,
             shortName: e.strHomeTeamShort || e.strHomeTeam,
-            crest: e.strHomeTeamBadge
+            crest: e.strHomeTeamBadge,
+            homeScore: e.intHomeScore,
           },
           awayTeam: {
             id: parseInt(e.idAwayTeam, 10),
             name: e.strAwayTeam,
             shortName: e.strAwayTeamShort || e.strAwayTeam,
-            crest: e.strAwayTeamBadge
+            crest: e.strAwayTeamBadge,
+            awayScore: e.intAwayScore
           },
-          utcDate: e.dateEvent + 'T' + e.strTime,
-          status: e.strStatus || 'Scheduled',
           competition: {
             name: e.strLeague,
             emblem: e.strLeagueBadge
