@@ -361,8 +361,6 @@ export class MatchesListComponent implements OnInit, OnDestroy {
         // Sort matches by utcDate ascending
         this.matches = matches.sort((a, b) => new Date(a.utcDate).getTime() - new Date(b.utcDate).getTime());
         this.loading = false;
-        console.log('Loaded matches:', matches);
-        console.log('rec matches:', this.matches);
       },
       error: (error) => {
         console.error('Error loading matches:', error);

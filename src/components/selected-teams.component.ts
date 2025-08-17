@@ -190,7 +190,6 @@ export class SelectedTeamsComponent implements OnInit {
 
   ngOnInit() {
     // Load from localStorage if exists
-    console.log(this.teams)
     const saved = localStorage.getItem(this.storageKey);
     if (saved) {
       try {
