@@ -112,7 +112,7 @@ import { interval, Subscription } from 'rxjs';
         left: 0;
       }
       to {
-        left: 60px;  /* barWidth - dashWidth (80-20) */
+        left: 60px;  
       }
     }
     .matches-container {

@@ -28,6 +28,12 @@ export interface Match {
   };
 }
 
+export enum MatchStatus {
+  NotStarted = "Not Started",
+  FirstHalf = "1H",
+  HalfTime = "HT",
+  SecondHalf = "2H"
+}
 @Injectable({
   providedIn: 'root'
 })
