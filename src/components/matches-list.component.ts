@@ -386,7 +386,7 @@ export class MatchesListComponent implements OnInit, OnDestroy {
     this.loadMatches();
 
     // Refresh matches every 5 minutes
-    this.refreshSubscription = interval(300000).subscribe(() => {
+    this.refreshSubscription = interval(60000).subscribe(() => {
       this.loadMatches();
     });
   }
