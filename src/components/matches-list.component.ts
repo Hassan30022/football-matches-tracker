@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FootballService, Match, Team } from '../services/football.service';
+import { FootballService, Match, MatchStatus, Team } from '../services/football.service';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -43,7 +43,8 @@ import { interval, Subscription } from 'rxjs';
           class="match-card animate-slide-in hover-lift">
           <div class="match-header">
             <span class="competition-name">{{ match.competition.name }}</span>
-            <span class="match-date">{{ formatDate(match.utcDate) }}</span>
+            <span class="match-date" *ngIf="match.status != matchStatus.FirstHalf && match.status != matchStatus.HalfTime && match.status != matchStatus.SecondHalf">{{ formatDate(match.utcDate) }}</span>
+            <span class="match-live" *ngIf="match.status == matchStatus.FirstHalf || match.status == matchStatus.HalfTime || match.status == matchStatus.SecondHalf">🔴Live</span>
           </div>
           
           <div class="match-teams">
@@ -54,6 +55,7 @@ import { interval, Subscription } from 'rxjs';
             </div>
             
             <div class="vs-separator">
+              <span class="vs-score" *ngIf="match.status != matchStatus.NotStarted">{{match.homeTeam.homeScore??0}} - {{match.awayTeam.awayScore}}</span>
               <span class="vs-text">VS</span>
             </div>
             
@@ -63,10 +65,13 @@ import { interval, Subscription } from 'rxjs';
               <span class="team-short">(Away)</span>
             </div>
           </div>
-          
+          <div class="live-bar" *ngIf="match.status == matchStatus.FirstHalf || match.status == matchStatus.HalfTime || match.status == matchStatus.SecondHalf"></div>
           <div class="match-time">
-            <i class="time-icon">⏰</i>
-            <span>{{ formatTime(match.utcDate) }}</span>
+            <i class="time-icon" *ngIf="match.status == matchStatus.NotStarted">⏰</i>
+            <span>{{ match.status == matchStatus.NotStarted ? formatTime(match.utcDate) : 
+                     match.status == matchStatus.FirstHalf ? '1st Half' : 
+                     match.status == matchStatus.HalfTime ? 'Half Time' : 
+                     match.status == matchStatus.SecondHalf ? '2nd Half' : 'Final' }}</span>
           </div>
           <div class="match-time">
             <i class="time-icon">🏟️</i>
@@ -78,6 +83,38 @@ import { interval, Subscription } from 'rxjs';
     </div>
   `,
   styles: [`
+
+    .live-bar {
+      position: relative;
+      width: 80px;      
+      height: 4px;
+      background: transparent; 
+      overflow: hidden;
+      border-radius: 2px;
+      margin: 0px;
+      justify-self: center;
+    }
+
+    .live-bar::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;              
+      height: 100%;
+      background: #2c6def;
+      border-radius: 2px;
+      animation: slideDash 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes slideDash {
+      from {
+        left: 0;
+      }
+      to {
+        left: 60px;  /* barWidth - dashWidth (80-20) */
+      }
+    }
     .matches-container {
       margin-top: 2rem;
     }
@@ -219,12 +256,19 @@ import { interval, Subscription } from 'rxjs';
       color: #9ca3af;
     }
 
+    .match-live {
+          color: #c8354b;
+    font-weight: 700;
+    font-size: 16px;
+    font-style: italic;
+    }
+
     .match-teams {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 4px;
     }
 
     .team {
@@ -256,6 +300,8 @@ import { interval, Subscription } from 'rxjs';
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .vs-text {
@@ -265,6 +311,11 @@ import { interval, Subscription } from 'rxjs';
       border-radius: 8px;
       font-weight: bold;
       font-size: 0.8rem;
+    }
+
+    .vs-score {
+      font-size: 24px;
+      font-weight: 600;
     }
 
     .match-time {
@@ -321,18 +372,19 @@ import { interval, Subscription } from 'rxjs';
 })
 export class MatchesListComponent implements OnInit, OnDestroy {
   @Input() selectedTeams: Team[] = [];
-  
+
   matches: any[] = [];
   loading = false;
   currentTimezone = '';
   private refreshSubscription?: Subscription;
+  matchStatus = MatchStatus;
 
-  constructor(private footballService: FootballService) {}
+  constructor(private footballService: FootballService) { }
 
   ngOnInit() {
     this.currentTimezone = this.getCurrentTimezone();
     this.loadMatches();
-    
+
     // Refresh matches every 5 minutes
     this.refreshSubscription = interval(300000).subscribe(() => {
       this.loadMatches();
@@ -355,7 +407,7 @@ export class MatchesListComponent implements OnInit, OnDestroy {
 
     this.loading = true;
     const teamIds = this.selectedTeams.map(team => team.id);
-    
+
     this.footballService.getUpcomingMatches(teamIds).subscribe({
       next: (matches) => {
         // Sort matches by utcDate ascending
@@ -369,42 +421,42 @@ export class MatchesListComponent implements OnInit, OnDestroy {
     });
   }
 
-private toIsoUtc(dateString: string): string {
-  if (!dateString) return dateString;
-  // if already has timezone info (Z or +hh:mm / -hh:mm) return as-is
-  if (/[zZ]$/.test(dateString) || /[+\-]\d{2}:\d{2}$/.test(dateString)) return dateString;
-  return dateString + 'Z';
-}
+  private toIsoUtc(dateString: string): string {
+    if (!dateString) return dateString;
+    // if already has timezone info (Z or +hh:mm / -hh:mm) return as-is
+    if (/[zZ]$/.test(dateString) || /[+\-]\d{2}:\d{2}$/.test(dateString)) return dateString;
+    return dateString + 'Z';
+  }
 
-formatDate(dateString: string, timeZone = 'Asia/Karachi'): string {
-  if (!dateString) return '';
-  const iso = this.toIsoUtc(dateString);
-  const date = new Date(iso);
+  formatDate(dateString: string, timeZone = 'Asia/Karachi'): string {
+    if (!dateString) return '';
+    const iso = this.toIsoUtc(dateString);
+    const date = new Date(iso);
 
-  const dayKeyFmt = new Intl.DateTimeFormat('en-CA', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }); // returns YYYY-MM-DD style
-  const displayFmt = new Intl.DateTimeFormat('en-US', { timeZone, weekday: 'long', month: 'short', day: 'numeric' });
+    const dayKeyFmt = new Intl.DateTimeFormat('en-CA', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }); // returns YYYY-MM-DD style
+    const displayFmt = new Intl.DateTimeFormat('en-US', { timeZone, weekday: 'long', month: 'short', day: 'numeric' });
 
-  const matchDay = dayKeyFmt.format(date);
-  const todayTz = dayKeyFmt.format(new Date());
-  const tomorrowTz = dayKeyFmt.format(new Date(Date.now() + 24 * 60 * 60 * 1000));
+    const matchDay = dayKeyFmt.format(date);
+    const todayTz = dayKeyFmt.format(new Date());
+    const tomorrowTz = dayKeyFmt.format(new Date(Date.now() + 24 * 60 * 60 * 1000));
 
-  if (matchDay === todayTz) return 'Today';
-  if (matchDay === tomorrowTz) return 'Tomorrow';
-  return displayFmt.format(date);
-}
+    if (matchDay === todayTz) return 'Today';
+    if (matchDay === tomorrowTz) return 'Tomorrow';
+    return displayFmt.format(date);
+  }
 
-formatTime(dateString: string, timeZone = 'Asia/Karachi'): string {
-  if (!dateString) return '';
-  const iso = this.toIsoUtc(dateString);
-  const date = new Date(iso);
+  formatTime(dateString: string, timeZone = 'Asia/Karachi'): string {
+    if (!dateString) return '';
+    const iso = this.toIsoUtc(dateString);
+    const date = new Date(iso);
 
-  return new Intl.DateTimeFormat('en-US', {
-    timeZone,
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  }).format(date);
-}
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    }).format(date);
+  }
 
   getCurrentTimezone(): string {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
