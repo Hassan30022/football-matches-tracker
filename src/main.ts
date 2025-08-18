@@ -71,7 +71,7 @@ import { MatchesListComponent } from './components/matches-list.component';
             Built with ❤️ by M. Hassan Asghar
           </p>
           <p class="version-text">
-            version: 15.8.0.03 | 2025
+            version: 18.8.0.03 | 2025
           </p>
         </div>
       </footer>
