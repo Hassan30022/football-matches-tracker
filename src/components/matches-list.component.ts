@@ -55,7 +55,7 @@ import { interval, Subscription } from 'rxjs';
             </div>
             
             <div class="vs-separator">
-              <span class="vs-score" *ngIf="match.status != matchStatus.NotStarted">{{match.homeTeam.homeScore??0}} - {{match.awayTeam.awayScore}}</span>
+              <span class="vs-score" *ngIf="match.status != matchStatus.NotStarted && match.status != matchStatus.TimeNotDefined">{{match.homeTeam.homeScore??''}} - {{match.awayTeam.awayScore??''}}</span>
               <span class="vs-text">VS</span>
             </div>
             
@@ -67,14 +67,16 @@ import { interval, Subscription } from 'rxjs';
           </div>
           <div class="live-bar" *ngIf="match.status == matchStatus.FirstHalf || match.status == matchStatus.HalfTime || match.status == matchStatus.SecondHalf"></div>
           <div class="match-time">
-            <i class="time-icon" *ngIf="match.status == matchStatus.NotStarted">⏰</i>
+            <i class="time-icon" *ngIf="match.status == matchStatus.NotStarted || match.status == matchStatus.TimeNotDefined">⏰</i>
             <span>{{ match.status == matchStatus.NotStarted ? formatTime(match.utcDate) : 
                      match.status == matchStatus.FirstHalf ? '1st Half' : 
                      match.status == matchStatus.HalfTime ? 'Half Time' : 
-                     match.status == matchStatus.SecondHalf ? '2nd Half' : 'Final' }}</span>
+                     match.status == matchStatus.SecondHalf ? '2nd Half' : 
+                     match.status == matchStatus.TimeNotDefined ? 'Time to be decided!' : 
+                     'Final' }}</span>
           </div>
           <div class="match-time">
-            <i class="time-icon">🏟️</i>
+            <i class="time-icon" *ngIf="match.venue">🏟️</i>
             <span>{{ match.venue }}</span>
           </div>
 

@@ -32,7 +32,8 @@ export enum MatchStatus {
   NotStarted = "Not Started",
   FirstHalf = "1H",
   HalfTime = "HT",
-  SecondHalf = "2H"
+  SecondHalf = "2H",
+  TimeNotDefined = "Time to be defined",
 }
 @Injectable({
   providedIn: 'root'

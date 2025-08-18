@@ -121,8 +121,8 @@ export class LeagueSelectorComponent implements OnInit {
     this.footballService.getAllLeagues().subscribe({
       next: (leagues) => {
         this.leagues = [
+          { name: 'Internationals' },
           ...leagues,
-          { name: 'Internationals' }
         ];
       },
       error: (error) => {
