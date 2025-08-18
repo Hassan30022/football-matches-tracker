@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FootballService, Team } from '../services/football.service';
+import { INTERNATIONAL_TEAMS } from '../enums';
 
 @Component({
   selector: 'app-team-selector',
@@ -154,8 +155,9 @@ export class TeamSelectorComponent implements OnChanges {
 
   teams: Team[] = [];
   selectedTeamId: string = '';
+  internationalTeams = INTERNATIONAL_TEAMS
 
-  constructor(private footballService: FootballService) {}
+  constructor(private footballService: FootballService) { }
 
   ngOnChanges() {
     if (this.league) {
@@ -168,16 +170,22 @@ export class TeamSelectorComponent implements OnChanges {
   }
 
   loadTeams() {
-    this.footballService.getTeamsByLeague(this.league).subscribe({
-      next: (teams) => {
-        this.teams = teams;
-        console.log('Teams loaded:', this.teams);
-        this.selectedTeamId = '';
-      },
-      error: (error) => {
-        console.error('Error loading teams:', error);
-      }
-    });
+    if (this.league === 'Internationals') {
+      // Use static internationals array
+      this.teams = this.internationalTeams;
+      this.selectedTeamId = '';
+    } else {
+      this.footballService.getTeamsByLeague(this.league).subscribe({
+        next: (teams) => {
+          this.teams = teams;
+          console.log('Teams loaded:', this.teams);
+          this.selectedTeamId = '';
+        },
+        error: (error) => {
+          console.error('Error loading teams:', error);
+        }
+      });
+    }
   }
 
   onTeamChange() {
@@ -195,7 +203,7 @@ export class TeamSelectorComponent implements OnChanges {
   }
 
   isTeamAlreadySelected(): boolean {
-    return this.selectedTeams.some(team => 
+    return this.selectedTeams.some(team =>
       team.id === parseInt(this.selectedTeamId)
     );
   }

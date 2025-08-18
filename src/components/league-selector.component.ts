@@ -21,7 +21,7 @@ import { FootballService, League } from '../services/football.service';
           class="select-input">
           <option value="">Choose a league...</option>
           <option *ngFor="let league of leagues" [value]="league.name">
-            {{ league.name }} ({{ league.country }})
+            {{league.name != '_No League' ? league.name : 'No League' }} {{ league.country ? '(' +league.country +')': ''}}
           </option>
         </select>
         <div class="select-arrow">▼</div>
@@ -120,7 +120,10 @@ export class LeagueSelectorComponent implements OnInit {
   loadLeagues() {
     this.footballService.getAllLeagues().subscribe({
       next: (leagues) => {
-        this.leagues = leagues;
+        this.leagues = [
+          ...leagues,
+          { name: 'Internationals' }
+        ];
       },
       error: (error) => {
         console.error('Error loading leagues:', error);

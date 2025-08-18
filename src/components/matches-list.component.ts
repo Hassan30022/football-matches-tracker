@@ -12,7 +12,7 @@ import { interval, Subscription } from 'rxjs';
       <div class="matches-header">
         <h3 class="section-title">
           <i class="icon">📅</i>
-          Upcoming Matches
+          Matches Schedule
         </h3>
         <div class="timezone-info">
           <i class="timezone-icon">🌍</i>
@@ -387,7 +387,7 @@ export class MatchesListComponent implements OnInit, OnDestroy {
 
     // Refresh matches every 5 minutes
     this.refreshSubscription = interval(60000).subscribe(() => {
-      this.loadMatches();
+      this.loadMatches(true);
     });
   }
 
@@ -399,13 +399,14 @@ export class MatchesListComponent implements OnInit, OnDestroy {
     this.loadMatches();
   }
 
-  loadMatches() {
+  loadMatches(isRefresh: boolean = false) {
     if (this.selectedTeams.length === 0) {
       this.matches = [];
       return;
     }
-
-    this.loading = true;
+    if(!isRefresh) {
+      this.loading = true;
+    }
     const teamIds = this.selectedTeams.map(team => team.id);
 
     this.footballService.getUpcomingMatches(teamIds).subscribe({

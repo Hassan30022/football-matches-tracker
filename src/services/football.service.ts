@@ -3,9 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, forkJoin, map, of } from 'rxjs';
 
 export interface League {
-  id: number;
+  id?: number;
   name: string;
-  country: string;
+  country?: string;
   emblem?: string;
 }
 
