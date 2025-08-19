@@ -16,13 +16,13 @@ export const INTERNATIONAL_TEAMS = [
     id: 133914,
     name: "England",
     shortName: "ENG",
-    crest: "assets/images/club-logo.png"
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/vf5ttc1726166739.png"
   },
   {
     id: 133907,
     name: "Germany",
     shortName: "GER",
-    crest: "assets/images/club-logo.png"
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/1xysi51726167152.png"
   },
   {
     id: 133909,
@@ -119,5 +119,61 @@ export const INTERNATIONAL_TEAMS = [
     name: "Senegal",
     shortName: "SEN",
     crest: "assets/images/club-logo.png"
-  }
+  },
+  {
+    id: 136461,
+    name: "Bulgaria",
+    shortName: "BLG",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/0bee7p1552858893.png"
+  },
+  {
+    id: 136473,
+    name: "Venezuela",
+    shortName: "VEN",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/x167yg1690791367.png"
+  },
+  {
+    id: 135983,
+    name: "Slovakia",
+    shortName: "SVK",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/njbw8n1717365638.png"
+
+  },
+  {
+    id: 136463,
+    name: "Andorra",
+    shortName: "AND",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/l5qspn1552847356.png"
+  },
+  {
+    id: 133911,
+    name: "Ireland",
+    shortName: "IRE",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/3vq2cl1679073105.png"
+
+  },
+  {
+    id: 135987,
+    name: "Hungary",
+    shortName: "Hun",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/ihaoit1717365719.png"
+  },
+  // {
+  //   id: ,
+  //   name: "",
+  //   shortName: "",
+  //   crest: 
+  // },
+  {
+    id: 134499,
+    name: "Chile",
+    shortName: "CHL",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/5xjsy41591988732.png"
+  },
+  // {
+  //   id: ,
+  //   name: "",
+  //   shortName: "",
+  //   crest: 
+  // },
 ];
