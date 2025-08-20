@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FootballService, Match, MatchStatus, Team } from '../services/football.service';
 import { interval, Subscription } from 'rxjs';
@@ -40,7 +40,7 @@ import { interval, Subscription } from 'rxjs';
       <div class="matches-list" *ngIf="!loading && matches.length > 0">
         <div 
           *ngFor="let match of matches; trackBy: trackByMatchId"
-          class="match-card animate-slide-in hover-lift">
+          class="match-card animate-slide-in hover-lift" [ngClass]="{'focused': focusedTeamId === match.homeTeam.id || focusedTeamId === match.awayTeam.id}">
           <div class="match-header">
             <span class="competition-name">{{ match.competition.name }}</span>
             <span class="match-date" *ngIf="match.status != matchStatus.FirstHalf && match.status != matchStatus.HalfTime && match.status != matchStatus.SecondHalf">{{ formatDate(match.utcDate) }}</span>
@@ -233,7 +233,12 @@ import { interval, Subscription } from 'rxjs';
       transition: all 0.3s ease;
     }
 
-    .match-card:hover {
+    // .match-card:hover, .focused {
+    //   border-color: #3b82f6;
+    //   background: rgba(45, 45, 45, 1);
+    // }
+
+    .focused {
       border-color: #3b82f6;
       background: rgba(45, 45, 45, 1);
     }
@@ -374,6 +379,7 @@ import { interval, Subscription } from 'rxjs';
 })
 export class MatchesListComponent implements OnInit, OnDestroy {
   @Input() selectedTeams: Team[] = [];
+  @Input() focusedTeamId: number | null = null;
 
   matches: any[] = [];
   loading = false;
@@ -397,8 +403,10 @@ export class MatchesListComponent implements OnInit, OnDestroy {
     this.refreshSubscription?.unsubscribe();
   }
 
-  ngOnChanges() {
-    this.loadMatches();
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['selectedTeams']){
+      this.loadMatches();
+    }
   }
 
   loadMatches(isRefresh: boolean = false) {

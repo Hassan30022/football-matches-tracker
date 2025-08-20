@@ -52,14 +52,16 @@ import { MatchesListComponent } from './components/matches-list.component';
           <section class="teams-section">
             <app-selected-teams
               [teams]="selectedTeams"
-              (teamRemoved)="onTeamRemoved($event)">
+              (teamRemoved)="onTeamRemoved($event)"
+              (focusChanged)="focusedTeamId = $event">
             </app-selected-teams>
           </section>
 
           <!-- Matches Section -->
           <section class="matches-section">
             <app-matches-list
-              [selectedTeams]="selectedTeams">
+              [selectedTeams]="selectedTeams" [focusedTeamId]="focusedTeamId "
+              >
             </app-matches-list>
           </section>
         </div>
@@ -71,7 +73,7 @@ import { MatchesListComponent } from './components/matches-list.component';
             Built with ❤️ by M. Hassan Asghar
           </p>
           <p class="version-text">
-            version: 18.8.0.03 | 2025
+            version: 20.8.0.03 | 2025
           </p>
         </div>
       </footer>
@@ -91,7 +93,7 @@ import { MatchesListComponent } from './components/matches-list.component';
       background: rgba(45, 45, 45, 0.6);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 2rem 0;
+      padding: 1rem 0;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -115,7 +117,7 @@ import { MatchesListComponent } from './components/matches-list.component';
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 0.5rem;
+
     }
 
     .title-icon {
@@ -235,9 +237,9 @@ import { MatchesListComponent } from './components/matches-list.component';
 export class App implements OnInit {
   selectedLeague = '';
   selectedTeams: Team[] = [];
+  focusedTeamId: number | null = null;
 
   ngOnInit() {
-    // Load any saved teams from localStorage if needed
     this.loadSavedTeams();
   }
 

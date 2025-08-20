@@ -14,9 +14,11 @@ import { Team } from '../services/football.service';
       </h3>
       
       <div class="teams-grid">
-        <div 
+        <div
           *ngFor="let team of teams; trackBy: trackByTeamId"
-          class="team-card animate-fade-in hover-lift">
+          class="team-card animate-fade-in hover-lift"
+          [ngClass]="{ 'focused': focusedTeamId === team.id }"
+          (click)="toggleFocus(team.id)">
           <div class="team-info-wrapper">
             <img [src]="team.crest" [alt]="team.name" class="team-crest">
             <div class="team-info">
@@ -76,9 +78,9 @@ import { Team } from '../services/football.service';
       transition: all 0.3s ease;
     }
 
-    .team-card:hover {
+    .team-card:hover, .focused {
       border-color: #3b82f6;
-      background: rgba(45, 45, 45, 1);
+      background: rgba(39, 39, 39, 1);
     }
 
     .team-info-wrapper{
@@ -185,9 +187,10 @@ import { Team } from '../services/football.service';
 export class SelectedTeamsComponent implements OnInit {
   @Input() teams: Team[] = [];
   @Output() teamRemoved = new EventEmitter<Team>();
+  @Output() focusChanged = new EventEmitter<number | null>();
 
   private storageKey = 'selectedTeams';
-
+  focusedTeamId: number | null = null;
   ngOnInit() {
     // Load from localStorage if exists
     const saved = localStorage.getItem(this.storageKey);
@@ -209,6 +212,11 @@ export class SelectedTeamsComponent implements OnInit {
   // Whenever teams input changes, store them
   ngOnChanges() {
     this.saveTeams();
+  }
+
+    toggleFocus(teamId: number) {
+    this.focusedTeamId = this.focusedTeamId === teamId ? null : teamId;
+     this.focusChanged.emit(this.focusedTeamId);
   }
 
   trackByTeamId(index: number, team: Team): number {
