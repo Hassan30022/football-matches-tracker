@@ -233,11 +233,6 @@ import { interval, Subscription } from 'rxjs';
       transition: all 0.3s ease;
     }
 
-    // .match-card:hover, .focused {
-    //   border-color: #3b82f6;
-    //   background: rgba(45, 45, 45, 1);
-    // }
-
     .focused {
       border-color: #3b82f6;
       background: rgba(45, 45, 45, 1);
