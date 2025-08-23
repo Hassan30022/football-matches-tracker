@@ -41,7 +41,7 @@ import { NgIf } from "@angular/common"
         </div>
         <div *ngIf="loading" class="loading-state">
               <div class="loading-spinner"></div>
-              <p>Loading Kits...</p>
+              <p>{{loadedImages? 'Rendering' : 'Loading'}} Kits...</p>
           </div>
       </div>
     </div>
@@ -121,6 +121,7 @@ export class ViewKitsModalComponent implements OnInit {
   teamDetails: any;
   kits: Equipment[] = [];
   loading: boolean = false;
+  loadedImages: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<ViewKitsModalComponent>,
     private footballService: FootballService,
@@ -138,7 +139,10 @@ export class ViewKitsModalComponent implements OnInit {
     this.loading = true;
     this.footballService.getAllKits(this.teamDetails.id).subscribe((res) => {
       this.kits = sortEquipments(res);
+      this.loadedImages = true
+      setTimeout(() => {
       this.loading = false;
+      },2000);
     },
     (error) => {
       this.loading = false;
