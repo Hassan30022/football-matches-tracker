@@ -62,6 +62,12 @@ export class FootballService {
     );
   }
 
+  getAllKits(teamId: number): Observable<any[]> {
+    return this.http.get<any>(`${this.baseUrl}/lookupequipment.php?id=${teamId}`).pipe(
+      map(response => response.equipment)
+    );
+  }
+
   getTeamsByLeague(leagueName: string): Observable<Team[]> {
     return this.http
       .get<any>(`${this.baseUrl}/search_all_teams.php?l=${encodeURIComponent(leagueName)}`)
@@ -109,6 +115,7 @@ export class FootballService {
         })))
       )
     );
+    
 
     return forkJoin(requests).pipe(
       map(results => results.flat())

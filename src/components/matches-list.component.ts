@@ -2,6 +2,9 @@ import { Component, Input, OnInit, OnDestroy, SimpleChanges } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { FootballService, Match, MatchStatus, Team } from '../services/football.service';
 import { interval, Subscription } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ViewKitsModalComponent } from './view-kits-modal.component';
+
 
 @Component({
   selector: 'app-matches-list',
@@ -46,12 +49,15 @@ import { interval, Subscription } from 'rxjs';
             <span class="match-date" *ngIf="match.status != matchStatus.FirstHalf && match.status != matchStatus.HalfTime && match.status != matchStatus.SecondHalf">{{ formatDate(match.utcDate) }}</span>
             <span class="match-live" *ngIf="match.status == matchStatus.FirstHalf || match.status == matchStatus.HalfTime || match.status == matchStatus.SecondHalf">🔴Live</span>
           </div>
-          
+
           <div class="match-teams">
             <div class="team home-team">
               <img class="crest" [src]="match.homeTeam.crest" [alt]="match.homeTeam.name">
               <span class="team-name">{{ match.homeTeam.name }}</span>
               <span class="team-short">(Home)</span>
+              <svg (click)="viewKits(match.homeTeam)" class="w-6 h-6 text-gray-800 dark:text-white home-kit" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M5.833 5a5 5 0 0 1 3-1h6.334a5 5 0 0 1 3 1L21.1 7.2a1 1 0 0 1 .268 1.296l-2 3.5a1 1 0 0 1-1.382.361l-.986-.59V19a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-7.234l-.985.591a1 1 0 0 1-1.383-.36l-2-3.5A1 1 0 0 1 2.9 7.2L5.833 5ZM14 5h-4c0 .425.223.933.645 1.355.422.423.93.645 1.355.645.425 0 .933-.222 1.355-.645.423-.422.645-.93.645-1.355Z" clip-rule="evenodd"/>
+              </svg>
             </div>
             
             <div class="vs-separator">
@@ -63,6 +69,9 @@ import { interval, Subscription } from 'rxjs';
               <img class="crest-away" [src]="match.awayTeam.crest" [alt]="match.awayTeam.name">
               <span class="team-name">{{ match.awayTeam.name }}</span>
               <span class="team-short">(Away)</span>
+               <svg (click)="viewKits(match.awayTeam)" class="w-6 h-6 text-gray-800 dark:text-white away-kit" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M5.833 5a5 5 0 0 1 3-1h6.334a5 5 0 0 1 3 1L21.1 7.2a1 1 0 0 1 .268 1.296l-2 3.5a1 1 0 0 1-1.382.361l-.986-.59V19a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-7.234l-.985.591a1 1 0 0 1-1.383-.36l-2-3.5A1 1 0 0 1 2.9 7.2L5.833 5ZM14 5h-4c0 .425.223.933.645 1.355.422.423.93.645 1.355.645.425 0 .933-.222 1.355-.645.423-.422.645-.93.645-1.355Z" clip-rule="evenodd"/>
+              </svg>
             </div>
           </div>
           <div class="live-bar" *ngIf="match.status == matchStatus.FirstHalf || match.status == matchStatus.HalfTime || match.status == matchStatus.SecondHalf"></div>
@@ -277,6 +286,7 @@ import { interval, Subscription } from 'rxjs';
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
+      position: relative;
     }
 
     .home-team {
@@ -285,6 +295,20 @@ import { interval, Subscription } from 'rxjs';
 
     .away-team {
       text-align: right;
+    }
+
+    .home-kit{
+      position: absolute;
+      bottom: -2px;
+      left: 50px;
+      cursor: pointer;
+    }
+
+    .away-kit{
+      position: absolute;
+      bottom: -2px;
+      right: 50px;
+      cursor: pointer;
     }
 
     .team-name {
@@ -382,7 +406,9 @@ export class MatchesListComponent implements OnInit, OnDestroy {
   private refreshSubscription?: Subscription;
   matchStatus = MatchStatus;
 
-  constructor(private footballService: FootballService) { }
+  constructor(private footballService: FootballService,
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit() {
     this.currentTimezone = this.getCurrentTimezone();
@@ -471,5 +497,25 @@ export class MatchesListComponent implements OnInit, OnDestroy {
 
   trackByMatchId(index: number, match: Match): number {
     return match.id;
+  }
+
+  viewKits(teamDetails: any) {
+     const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = "90vw";
+    dialogConfig.width = "90vw";
+    dialogConfig.minHeight = "90vh";
+    dialogConfig.height = "90vh";
+    dialogConfig.autoFocus = false;
+    dialogConfig.data = {
+      teamDetails: teamDetails
+    };
+    const dialogRef = this.dialog.open(ViewKitsModalComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data?.updated) {
+          
+        }
+      }
+    );
   }
 }

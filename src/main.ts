@@ -7,6 +7,7 @@ import { LeagueSelectorComponent } from './components/league-selector.component'
 import { TeamSelectorComponent } from './components/team-selector.component';
 import { SelectedTeamsComponent } from './components/selected-teams.component';
 import { MatchesListComponent } from './components/matches-list.component';
+import { ViewKitsModalComponent } from './components/view-kits-modal.component';
 
 @Component({
   selector: 'app-root',
