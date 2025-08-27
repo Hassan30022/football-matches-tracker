@@ -62,7 +62,9 @@ import { ViewKitsModalComponent } from './view-kits-modal.component';
             
             <div class="vs-separator">
               <span class="vs-score" *ngIf="match.status != matchStatus.NotStarted && match.status != matchStatus.TimeNotDefined">{{match.homeTeam.homeScore??''}} - {{match.awayTeam.awayScore??''}}</span>
+              <img class="league-img" [ngStyle]="(match.status != matchStatus.NotStarted && match.status != matchStatus.TimeNotDefined && match.homeTeam.homeScore) ? {'top': '-60px'} : {'top': '-85px'}" *ngIf="match.leagueBadge" [src]="match.leagueBadge" alt="">
               <span class="vs-text">VS</span>
+
             </div>
             
             <div class="team away-team">
@@ -328,6 +330,7 @@ import { ViewKitsModalComponent } from './view-kits-modal.component';
       justify-content: center;
       flex-direction: column;
       gap: 10px;
+      position: relative;
     }
 
     .vs-text {
@@ -342,6 +345,13 @@ import { ViewKitsModalComponent } from './view-kits-modal.component';
     .vs-score {
       font-size: 24px;
       font-weight: 600;
+    }
+
+    .league-img{
+      height: 50px;
+      width: 50px;
+      position: absolute;
+      top: -85px;
     }
 
     .match-time {

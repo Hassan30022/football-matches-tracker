@@ -94,6 +94,7 @@ export class FootballService {
           venue: e.strVenue,
           postponed: e.strPostponed != 'no',
           season: e.strSeason,
+          leagueBadge: e.strLeagueBadge,
           homeTeam: {
             id: parseInt(e.idHomeTeam, 10),
             name: e.strHomeTeam,
