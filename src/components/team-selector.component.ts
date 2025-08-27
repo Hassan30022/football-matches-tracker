@@ -52,7 +52,6 @@ import { INTERNATIONAL_TEAMS } from "../enums";
   styles: [
     `
       .selector-container {
-        // margin-bottom: 1.5rem;
       }
 
       .selector-label {
