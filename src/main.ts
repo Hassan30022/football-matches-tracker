@@ -74,7 +74,7 @@ import { ViewKitsModalComponent } from './components/view-kits-modal.component';
             Built with ❤️ by M. Hassan Asghar
           </p>
           <p class="version-text">
-            version: 27.8.0.03 | 2025
+            version: 14.11.0.03 | 2025
           </p>
         </div>
       </footer>
