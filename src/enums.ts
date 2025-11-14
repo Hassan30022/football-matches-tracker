@@ -34,19 +34,25 @@ export const INTERNATIONAL_TEAMS = [
     id: 133908,
     name: "Portugal",
     shortName: "POR",
-    crest: "assets/images/club-logo.png"
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/swqvpy1455466083.png"
+  },
+  {
+    id: 133913,
+    name: "France",
+    shortName: "FRA",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/p3n0z51726166851.png"
   },
   {
     id: 133910,
-    name: "France",
-    shortName: "FRA",
-    crest: "assets/images/club-logo.png"
-  },
-  {
-    id: 133911,
     name: "Italy",
     shortName: "ITA",
-    crest: "assets/images/club-logo.png"
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/fxijcp1726167035.png"
+  },
+  {
+    id: 136516,
+    name: "Norway",
+    shortName: "NOR",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/gyfn811591973155.png"
   },
   {
     id: 134515,
@@ -91,10 +97,10 @@ export const INTERNATIONAL_TEAMS = [
     crest: "assets/images/club-logo.png"
   },
   {
-    id: 140274,
+    id: 140141,
     name: "Pakistan",
     shortName: "PAK",
-    crest: "assets/images/club-logo.png"
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/4x1akh1597935271.png"
   },
   {
     id: 136471,
@@ -158,22 +164,22 @@ export const INTERNATIONAL_TEAMS = [
     shortName: "Hun",
     crest: "https://r2.thesportsdb.com/images/media/team/badge/ihaoit1717365719.png"
   },
-  // {
-  //   id: ,
-  //   name: "",
-  //   shortName: "",
-  //   crest: 
-  // },
   {
     id: 134499,
     name: "Chile",
     shortName: "CHL",
     crest: "https://r2.thesportsdb.com/images/media/team/badge/5xjsy41591988732.png"
   },
-  // {
-  //   id: ,
-  //   name: "",
-  //   shortName: "",
-  //   crest: 
-  // },
+  {
+    id: 133903,
+    name: "Russia",
+    shortName: "RUS",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/nz50i51689197440.png"
+  },
+  {
+    id: 136485,
+    name: "Angola",
+    shortName: "ANG",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/bm2gzt1553208021.png"
+  },
 ];
