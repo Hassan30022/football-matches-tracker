@@ -197,7 +197,8 @@ export class TeamSelectorComponent implements OnChanges {
   dropdownOpen = false;
   teams: Team[] = [];
   selectedTeamId: string = "";
-  internationalTeams = INTERNATIONAL_TEAMS;
+  // internationalTeams = INTERNATIONAL_TEAMS;
+  internationalTeams = [...INTERNATIONAL_TEAMS].sort((a, b) => a.name.localeCompare(b.name))
   otherTeams = OTHER_TEAMS;
 
   constructor(private footballService: FootballService) {}
