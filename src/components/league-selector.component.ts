@@ -149,7 +149,7 @@ export class LeagueSelectorComponent implements OnInit {
   loadLeagues() {
     this.footballService.getAllLeagues().subscribe({
       next: (leagues) => {
-        this.leagues = [{ name: "Internationals" }, ...leagues];
+        this.leagues = [{ name: "Internationals"}, {name: "Others"}, ...leagues];
       },
       error: (error) => {
         console.error("Error loading leagues:", error);

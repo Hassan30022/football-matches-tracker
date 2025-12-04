@@ -1,3 +1,41 @@
+export const OTHER_TEAMS = [
+   {
+    id: 136022,
+    name: "Al-Nassr",
+    shortName: "Al-Nas",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/84yvqi1748524565.png"
+  },
+   {
+    id: 134286,
+    name: "Santos F.C.",
+    shortName: "SAN",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/j8xk9g1679447486.png"
+  },
+   {
+    id: 136013,
+    name: "Al-Hilal",
+    shortName: "Al-Hil",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/w0b80d1661656916.png"
+  },
+   {
+    id: 136018,
+    name: "Al-Ittihad",
+    shortName: "Al-Itt",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/8n1t1j1755192418.png"
+  },
+   {
+    id: 133804,
+    name: "Galatasaray",
+    shortName: "Gal",
+    crest: "https://r2.thesportsdb.com/images/media/team/badge/75fphr1537381190.png"
+  },
+  //  {
+  //   id: 0,
+  //   name: "",
+  //   shortName: "",
+  //   crest: ""
+  // },
+];
 export const INTERNATIONAL_TEAMS = [
    {
     id: 134509,

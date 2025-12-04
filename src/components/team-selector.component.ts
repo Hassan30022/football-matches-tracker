@@ -8,7 +8,7 @@ import {
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { FootballService, Team } from "../services/football.service";
-import { INTERNATIONAL_TEAMS } from "../enums";
+import { INTERNATIONAL_TEAMS, OTHER_TEAMS } from "../enums";
 
 @Component({
   selector: "app-team-selector",
@@ -198,6 +198,7 @@ export class TeamSelectorComponent implements OnChanges {
   teams: Team[] = [];
   selectedTeamId: string = "";
   internationalTeams = INTERNATIONAL_TEAMS;
+  otherTeams = OTHER_TEAMS;
 
   constructor(private footballService: FootballService) {}
 
@@ -216,7 +217,11 @@ export class TeamSelectorComponent implements OnChanges {
       // Use static internationals array
       this.teams = this.internationalTeams;
       this.selectedTeamId = "";
-    } else {
+    }else if (this.league === "Others") {
+      this.teams = this.otherTeams;
+      this.selectedTeamId = "";
+    }
+     else {
       this.footballService.getTeamsByLeague(this.league).subscribe({
         next: (teams) => {
           this.teams = teams;
