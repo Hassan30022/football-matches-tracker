@@ -29,6 +29,12 @@ export const OTHER_TEAMS = [
     shortName: "Gal",
     crest: "https://r2.thesportsdb.com/images/media/team/badge/75fphr1537381190.png"
   },
+   {
+    id: 137699,
+    name: "Inter Miami",
+    shortName: "Miami",
+    crest: "https://r2.thesportsdb.com\/images\/media\/team\/badge\/m4it3e1602103647.png"
+  },
   //  {
   //   id: 0,
   //   name: "",

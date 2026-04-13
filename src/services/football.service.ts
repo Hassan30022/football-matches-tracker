@@ -95,6 +95,7 @@ export class FootballService {
           postponed: e.strPostponed != 'no',
           season: e.strSeason,
           leagueBadge: e.strLeagueBadge,
+          idLeague: parseInt(e.idLeague, 10),
           homeTeam: {
             id: parseInt(e.idHomeTeam, 10),
             name: e.strHomeTeam,
@@ -120,6 +121,12 @@ export class FootballService {
 
     return forkJoin(requests).pipe(
       map(results => results.flat())
+    );
+  }
+
+  getLeagueTable(leagueId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/lookuptable.php?l=${leagueId}`).pipe(
+      map(response => response?.table || [])
     );
   }
 }
