@@ -15,11 +15,12 @@ import {
 import { interval, Subscription } from "rxjs";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ViewKitsModalComponent } from "./view-kits-modal.component";
+import { ProgressBarComponent } from "../helper/progress-bar";
 
 @Component({
   selector: "app-matches-list",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProgressBarComponent],
   template: `
     <div class="matches-container">
       <div class="matches-header">
@@ -209,6 +210,7 @@ import { ViewKitsModalComponent } from "./view-kits-modal.component";
             <i class="time-icon" *ngIf="match.venue">🏟️</i>
             <span>{{ match.venue }}</span>
           </div>
+          <app-progress-bar *ngIf="loadingStandings[match.id]"></app-progress-bar>
           <div
             class="match-card"
             style="margin-top: 10px;"
@@ -718,6 +720,7 @@ export class MatchesListComponent implements OnInit, OnDestroy {
   private refreshSubscription?: Subscription;
   matchStatus = MatchStatus;
   standings: { [leagueId: number]: any[] } = {};
+  loadingStandings: { [eventId: number]: boolean } = {};
   openedMatches = new Set<number>();
 
   constructor(
@@ -848,8 +851,10 @@ export class MatchesListComponent implements OnInit, OnDestroy {
   }
 
   getLeagueTable(leagueId: number, eventId?: number) {
+    this.loadingStandings[eventId!] = true;
     this.footballService.getLeagueTable(leagueId).subscribe({
       next: (table) => {
+        this.loadingStandings[eventId!] = false;
         console.log("League Table:", table);
         this.standings[leagueId] = table;
         if (table.length > 0 && eventId) {
@@ -858,6 +863,7 @@ export class MatchesListComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error("Error loading league table:", error);
+        this.loadingStandings[eventId!] = false;
       },
     });
   }
