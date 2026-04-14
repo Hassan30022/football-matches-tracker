@@ -719,7 +719,7 @@ export class MatchesListComponent implements OnInit, OnDestroy {
   currentTimezone = "";
   private refreshSubscription?: Subscription;
   matchStatus = MatchStatus;
-  standings: { [leagueId: number]: any[] } = {};
+  standings: { [leagueId: number]: any[] | undefined } = {};
   loadingStandings: { [eventId: number]: boolean } = {};
   openedMatches = new Set<number>();
 
